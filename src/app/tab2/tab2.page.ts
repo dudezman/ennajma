@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { StoreService } from '../services/store.service';
 
 @Component({
   selector: 'app-tab2',
@@ -6,7 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
-
-  constructor() {}
+  sousSites$ = this.store.sousSites$
+  constructor(private store:StoreService) {}
 
 }

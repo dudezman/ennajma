@@ -5,9 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ExploreContainerComponent } from './explore-container.component';
+import { SwiperModule } from 'swiper/angular';
 
 @NgModule({
-  imports: [ CommonModule, FormsModule, IonicModule],
+  imports: [ CommonModule, FormsModule, IonicModule,SwiperModule],
   declarations: [ExploreContainerComponent],
   exports: [ExploreContainerComponent]
 })

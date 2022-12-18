@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { StoreService } from '../services/store.service';
 
 @Component({
   selector: 'app-tab3',
@@ -6,7 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page {
-
-  constructor() {}
+  locaux$ = this.store.locaux$
+  constructor(private store:StoreService) {}
 
 }
