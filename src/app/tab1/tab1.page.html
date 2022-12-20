@@ -12,6 +12,27 @@
       <ion-title size="large">Sites</ion-title>
     </ion-toolbar>
   </ion-header>
-
-  <app-explore-container [data]="(sites$|async)!"></app-explore-container>
+<ion-content>
+  <ion-grid>
+    <ion-row >
+      <ion-col *ngFor="let item of (sites$|async)!;let index=index" size="12">
+        <ion-card color="dark" [button]="true">
+          <ion-img [src]="item.image" alt=""></ion-img>
+          <ion-card-header>
+            <ion-card-title>{{item.name}}</ion-card-title>
+            <ion-card-subtitle> 
+              {{item.short_desc}}
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+  <!-- <app-explore-container [data]="(sites$|async)!"></app-explore-container> -->
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

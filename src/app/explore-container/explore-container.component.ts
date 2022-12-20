@@ -1,6 +1,7 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import Swiper from 'swiper';
+
 @Component({
   selector: 'app-explore-container',
   templateUrl: './explore-container.component.html',
@@ -12,6 +13,7 @@ export class ExploreContainerComponent {
   selectedItem$ = new BehaviorSubject<any>(undefined)
   selectedIndex=0
   @Input() data!: any[];
+
   dismiss(){
     this.previewing =false;
     this.selectedIndex=0
