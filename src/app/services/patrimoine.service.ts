@@ -8,6 +8,7 @@ import { StoreService } from './store.service';
 })
 export class PatrimoineService {
   sitesPage = 1;
+  sousSitesPage = 1;
   constructor(
     private http: HttpClient,
     private store: StoreService
@@ -19,8 +20,16 @@ export class PatrimoineService {
     if(next){
       this.sitesPage+=1
     }else{
-      this.sitesPage===0
+      this.sitesPage=1
     }
-    return this.http.get<any[]>(environment.apiUrl+'/Sitebylang?lang='+this.store.language$.getValue()+'&page=1&pager=4')
+    return this.http.get<any[]>(environment.apiUrl+'/Sitebylang?lang='+this.store.language$.getValue()+'&page='+this.sitesPage+'&pager=4')
+  }
+  getDetailSite(next=true){
+    if(next){
+      this.sousSitesPage+=1
+    }else{
+      this.sousSitesPage=1
+    }
+    return this.http.get<any>(environment.apiUrl+'/Detailsitebylang?lang='+this.store.language$.getValue()+'&page='+this.sousSitesPage+'&pager=4&id_site='+this.store.selectedSite$.getValue().id)
   }
 }

@@ -7,7 +7,7 @@ import { StoreService } from '../services/store.service';
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page {
-  locaux$ = this.store.locaux$
+  locaux= []
   constructor(private store:StoreService) {}
 
 }

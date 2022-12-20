@@ -16,7 +16,7 @@
   <ion-grid>
     <ion-row >
       <ion-col *ngFor="let item of (sites$|async)!;let index=index" size="12">
-        <ion-card color="dark" [button]="true">
+        <ion-card color="dark" [button]="true" (click)="preview(item,index)">
           <ion-img [src]="item.image" alt=""></ion-img>
           <ion-card-header>
             <ion-card-title>{{item.name}}</ion-card-title>
@@ -30,9 +30,40 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-</ion-content>
-  <!-- <app-explore-container [data]="(sites$|async)!"></app-explore-container> -->
-  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)" *ngIf="!done">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
+</ion-content>
+<ion-modal [isOpen]="previewing">
+  <ng-template>
+    <ion-content class="ion-padding">
+      <ion-item lines="none">
+        <ion-button (click)="dismiss()" slot="end" fill="clear" color="dark"><ion-icon name="close-outline"></ion-icon></ion-button>
+      </ion-item>
+      <swiper
+      style="height: 100%;"
+      [slidesPerView]="1"
+      [spaceBetween]="50"
+      [initialSlide]="selectedIndex"
+      (swiper)="onSwiper($event)"
+      (slideChange)="onSlideChange($event)"
+    >
+      <ng-template swiperSlide *ngFor="let item of sites$|async">
+        <ion-card  style="width: 100%;height: 100%;">
+          <ion-card-header>
+            <ion-thumbnail>
+              <img [src]="item.image" alt=""/>
+            </ion-thumbnail>
+            <ion-card-title>{{item.name}}</ion-card-title>
+            <!-- <ion-card-subtitle style="height: 100px;"> 
+            </ion-card-subtitle> -->
+          </ion-card-header>
+          <ion-card-content>
+          </ion-card-content>
+        </ion-card>
+      </ng-template>
+    </swiper>
+    </ion-content>
+  </ng-template>
+</ion-modal>
 </ion-content>

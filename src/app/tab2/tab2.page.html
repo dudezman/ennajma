@@ -1,17 +1,82 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" *ngIf="site$|async as site">
   <ion-toolbar>
     <ion-title>
-      Sous Sites
+      {{site!.name}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" *ngIf="site$|async as site">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Sous Sites</ion-title>
+      <ion-title size="large">{{site!.name}}</ion-title>
     </ion-toolbar>
   </ion-header>
-
-  <app-explore-container [data]="(sousSites$|async)!"></app-explore-container>
+  <ion-content class="ion-padding">
+    <ion-img [src]="site.image"></ion-img>
+    <ion-text>
+      <h3 class="ion-text-center">{{site.name}}</h3>
+    </ion-text>
+    <ion-text>
+      <p>
+        {{isReadMore?(site.desc ?? 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima consectetur blanditiis officia, error vel eaque iste dolore quos sit et dolorum accusantium qui ullam modi expedita autem magni cumque architecto.'):(site.desc ?? 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima consectetur blanditiis officia, error vel eaque iste dolore quos sit et dolorum accusantium qui ullam modi expedita autem magni cumque architecto.')|slice:0:100 }}
+        <ion-text color="primary">
+          <span (click)="isReadMore=!isReadMore">
+            {{isReadMore?showLess:readMore}}
+          </span>
+        </ion-text>
+      </p>
+    </ion-text>
+    <swiper
+    [slidesPerView]="3"
+    [spaceBetween]="50"
+    [initialSlide]="0"
+  >
+    <ng-template swiperSlide *ngFor="let item of gallery;let index= index">
+      <ion-img [src]="path+item" alt="" width="200" height="200" (click)="preview(item,index)">
+      </ion-img>
+    </ng-template>
+  </swiper>
+  <ion-grid>
+    <ion-row >
+      <ion-col *ngFor="let item of sousSites;let index=index" size="12">
+        <ion-card color="dark" [button]="true" (click)="selectSousSite(item)">
+          <ion-img [src]="item.image" alt=""></ion-img>
+          <ion-card-header>
+            <ion-card-title>{{item.name}}</ion-card-title>
+            <ion-card-subtitle> 
+              {{item.short_desc}}
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)" *ngIf="!done">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  </ion-content>
+  <ion-modal [isOpen]="previewing">
+    <ng-template>
+      <ion-content class="ion-padding">
+        <ion-item lines="none">
+          <ion-button (click)="dismiss()" slot="end" fill="clear" color="dark"><ion-icon name="close-outline"></ion-icon></ion-button>
+        </ion-item>
+        <swiper
+        style="height: 100%;"
+        [slidesPerView]="1"
+        [spaceBetween]="50"
+        [initialSlide]="selectedIndex"
+        (swiper)="onSwiper($event)"
+        (slideChange)="onSlideChange($event)"
+      >
+        <ng-template swiperSlide *ngFor="let item of gallery">
+          <img [src]="path+item" alt="" style="width: 100%;"/>
+        </ng-template>
+      </swiper>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
